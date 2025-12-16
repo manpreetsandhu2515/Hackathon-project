@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f4f5f7;
+    color: #222;
+}
+
+/* Header */
+.header {
+    background: white;
+    padding: 30px 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.header p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Layout */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+}
+
+.subtext {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Upload */
+.upload-box {
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+    background: #fafafa;
+}
+
+.upload-box input {
+    font-size: 14px;
+}
+
+/* Buttons */
+.primary-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2f2f2f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.primary-btn:hover {
+    background: #000;
+}
+
+.link-btn {
+    display: inline-block;
+    margin-top: 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Note */
+.note {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #777;
+}
+
+/* Table */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    background: #f0f0f0;
+    text-align: left;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: #777;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processing Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header">
+    <h1>Cleaned Provider Directory</h1>
+    <p>Verified & enriched using AI agents</p>
+</header>
+
+<main class="container">
+    <section class="card">
+        <h2>Results</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        {% for key in results[0].keys() %}
+                            <th>{{ key.replace('_', ' ').title() }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        {% for value in row.values() %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/" class="link-btn">
+            ← Upload another file
+        </a>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>AI-powered Healthcare Data Verification</p>
+</footer>
+
+</body>
+</html>
