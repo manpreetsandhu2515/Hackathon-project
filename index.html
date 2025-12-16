@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedTrust AI — Agentic Intelligence for Reliable Healthcare Provider Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            min-width: 100px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Panel Styles */
+        .panel {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .panel-title i {
+            color: var(--primary);
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--gray-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-light);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Data Table */
+        .data-table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--light);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--gray-light);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--gray-light);
+            vertical-align: top;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .provider-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .accuracy-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .accuracy-high {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .accuracy-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .accuracy-low {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .issues-list {
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .issue-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e5e7eb;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .issue-item:last-child {
+            border-bottom: none;
+        }
+
+        .issue-item i {
+            color: var(--warning);
+            margin-right: 0.5rem;
+        }
+
+        /* Visualization Panel */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .chart-box {
+            height: 200px;
+            padding: 1rem;
+        }
+
+        /* Input Panel */
+        .input-panel {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Agent Status */
+        .agent-status {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            color: var(--secondary);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--secondary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .status-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-heart"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>MedTrust AI</h1>
+                    <p>Agentic Intelligence for Reliable Healthcare Provider Data</p>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="total-providers">12</div>
+                    <div class="stat-label">Providers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="avg-accuracy">78%</div>
+                    <div class="stat-label">Avg Accuracy</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="enriched-count">8</div>
+                    <div class="stat-label">Enriched</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Main Dashboard -->
+        <div class="dashboard">
+            <!-- Left Column -->
+            <div>
+                <!-- Providers Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-user-md"></i>
+                            Cleaned Provider Directory
+                        </div>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" onclick="exportData()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button class="btn btn-primary" onclick="addNewProvider()">
+                                <i class="fas fa-plus"></i> Add Provider
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="providers-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Specialty</th>
+                                    <th>License</th>
+                                    <th>Accuracy Score</th>
+                                    <th>Issues</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="providers-body">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Charts Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Data Quality Analytics
+                        </div>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" onclick="refreshCharts()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="charts-container">
+                        <div class="chart-box">
+                            <canvas id="accuracyChart"></canvas>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="specialtyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Input Panel -->
+                <div class="input-panel">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--dark);">
+                        <i class="fas fa-robot"></i> AI Agent Control Panel
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="provider-name">Provider Name</label>
+                        <input type="text" id="provider-name" class="form-control" placeholder="Dr. Amit Sharma">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provider-address">Address</label>
+                        <textarea id="provider-address" class="form-control" rows="2" placeholder="Near City Mall, Sector 17"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provider-phone">Phone Number</label>
+                        <input type="text" id="provider-phone" class="form-control" placeholder="987654">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provider-specialty">Specialty</label>
+                        <input type="text" id="provider-specialty" class="form-control" placeholder="heart doctor">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provider-license">License Number</label>
+                        <input type="text" id="provider-license" class="form-control" placeholder="Optional">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provider-city">City</label>
+                        <input type="text" id="provider-city" class="form-control" placeholder="Delhi">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="enable-enrichment" checked>
+                        <label for="enable-enrichment">Enable AI Enrichment (search for missing data)</label>
+                    </div>
+
+                    <button class="btn btn-success" style="width: 100%; margin-top: 1rem;" onclick="processProvider()">
+                        <i class="fas fa-magic"></i> Process with AI Agent
+                    </button>
+
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 0.75rem;" onclick="clearForm()">
+                        <i class="fas fa-eraser"></i> Clear Form
+                    </button>
+                </div>
+
+                <!-- Agent Status -->
+                <div class="agent-status">
+                    <div class="status-header">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span class="status-active">Agent Active</span>
+                        </div>
+                        <span id="agent-status-text">Processing data...</span>
+                    </div>
+                    
+                    <div class="status-metrics">
+                        <div class="metric">
+                            <div class="metric-value" id="cache-hit-rate">87%</div>
+                            <div class="metric-label">Cache Hit Rate</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="enrichment-success">92%</div>
+                            <div class="metric-label">Enrichment Success</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="avg-processing-time">1.2s</div>
+                            <div class="metric-label">Avg Processing Time</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="total-processed">24</div>
+                            <div class="metric-label">Total Processed</div>
+                        </metric>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Provider Details -->
+    <div class="modal" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: var(--dark);">Provider Details</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" onclick="editProvider()">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>MedTrust AI — Agentic Intelligence for Reliable Healthcare Provider Data</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                <i class="fas fa-code"></i> Built for Hackathon | 
+                <i class="fas fa-shield-alt"></i> HIPAA Compliant Data Processing |
+                <i class="fas fa-bolt"></i> Real-time AI Enrichment
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data matching your output
+        const sampleData = [
+            {
+                id: 1,
+                name: "Dr. Amit Sharma",
+                address: "Near City Mall, Sector 17",
+                phone: "+91 98765 43210",
+                specialty: "Cardiologist",
+                license: "None",
+                accuracy_score: 62,
+                issues: [
+                    "Address is incomplete and missing city, state, and PIN code",
+                    "Phone number was not in standard Indian format; normalized to +91 format",
+                    "Specialty 'heart doctor' is non-standard; standardized to 'Cardiologist'",
+                    "License field is missing (null); medical registration number should be provided"
+                ],
+                original_specialty: "heart doctor",
+                enriched: true,
+                source: "AI Enriched"
+            },
+            {
+                id: 2,
+                name: "Dr. Priya Patel",
+                address: "14th Cross, MG Road, Bangalore 560001",
+                phone: "+91 87654 32109",
+                specialty: "Dermatologist",
+                license: "KA/12345/2020",
+                accuracy_score: 95,
+                issues: [],
+                enriched: true,
+                source: "Verified Database"
+            },
+            {
+                id: 3,
+                name: "Dr. Rajesh Kumar",
+                address: "City Hospital, Andheri West",
+                phone: "+91 76543 21098",
+                specialty: "Orthopedic Surgeon",
+                license: "MH/67890/2019",
+                accuracy_score: 88,
+                issues: [
+                    "Address could be more specific with floor/room number"
+                ],
+                enriched: false,
+                source: "Manual Entry"
+            },
+            {
+                id: 4,
+                name: "Dr. Anjali Mehta",
+                address: "Green Park, South Delhi",
+                phone: "+91 65432 10987",
+                specialty: "Pediatrician",
+                license: "DL/54321/2021",
+                accuracy_score: 92,
+                issues: [],
+                enriched: true,
+                source: "AI Enriched"
+            }
+        ];
+
+        // Initialize charts
+        let accuracyChart, specialtyChart;
+
+        // DOM Elements
+        const providersBody = document.getElementById('providers-body');
+        const totalProvidersEl = document.getElementById('total-providers');
+        const avgAccuracyEl = document.getElementById('avg-accuracy');
+        const enrichedCountEl = document.getElementById('enriched-count');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProvidersTable();
+            updateStats();
+            initializeCharts();
+            simulateAgentActivity();
+        });
+
+        // Render providers table
+        function renderProvidersTable() {
+            providersBody.innerHTML = '';
+            
+            sampleData.forEach(provider => {
+                const row = document.createElement('tr');
+                
+                // Determine accuracy class
+                let accuracyClass = 'accuracy-medium';
+                if (provider.accuracy_score >= 80) accuracyClass = 'accuracy-high';
+                else if (provider.accuracy_score < 60) accuracyClass = 'accuracy-low';
+                
+                // Create issues list HTML
+                const issuesList = provider.issues.length > 0 
+                    ? provider.issues.map(issue => 
+                        `<div class="issue-item"><i class="fas fa-exclamation-triangle"></i>${issue}</div>`
+                      ).join('')
+                    : '<div class="issue-item" style="color: var(--secondary);"><i class="fas fa-check-circle"></i>No issues found</div>';
+                
+                row.innerHTML = `
+                    <td><span class="provider-name">${provider.name}</span></td>
+                    <td>${provider.address}</td>
+                    <td>${provider.phone}</td>
+                    <td>${provider.specialty}</td>
+                    <td>${provider.license}</td>
+                    <td>
+                        <span class="accuracy-badge ${accuracyClass}">
+                            ${provider.accuracy_score}%
+                        </span>
+                    </td>
+                    <td>
+                        <div class="issues-list">
+                            ${issuesList}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem;" onclick="viewDetails(${provider.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-primary" style="padding: 0.25rem 0.5rem;" onclick="reprocessProvider(${provider.id})">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </td>
+                `;
+                
+                providersBody.appendChild(row);
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = sampleData.length;
+            const avgAccuracy = Math.round(sampleData.reduce((sum, p) => sum + p.accuracy_score, 0) / total);
+            const enriched = sampleData.filter(p => p.enriched).length;
+            
+            totalProvidersEl.textContent = total;
+            avgAccuracyEl.textContent = `${avgAccuracy}%`;
+            enrichedCountEl.textContent = enriched;
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            const accuracyCtx = document.getElementById('accuracyChart').getContext('2d');
+            const specialtyCtx = document.getElementById('specialtyChart').getContext('2d');
+            
+            // Accuracy distribution chart
+            const accuracyData = {
+                high: sampleData.filter(p => p.accuracy_score >= 80).length,
+                medium: sampleData.filter(p => p.accuracy_score >= 60 && p.accuracy_score < 80).length,
+                low: sampleData.filter(p => p.accuracy_score < 60).length
+            };
+            
+            accuracyChart = new Chart(accuracyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High (80-100)', 'Medium (60-79)', 'Low (<60)'],
+                    datasets: [{
+                        data: [accuracyData.high, accuracyData.medium, accuracyData.low],
+                        backgroundColor: [
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Specialty distribution chart
+            const specialties = {};
+            sampleData.forEach(provider => {
+                specialties[provider.specialty] = (specialties[provider.specialty] || 0) + 1;
+            });
+            
+            specialtyChart = new Chart(specialtyCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(specialties),
+                    datasets: [{
+                        label: 'Number of Providers',
+                        data: Object.values(specialties),
+                        backgroundColor: '#2563eb',
+                        borderColor: '#1d4ed8',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Refresh charts
+        function refreshCharts() {
+            accuracyChart.destroy();
+            specialtyChart.destroy();
+            initializeCharts();
+            showNotification('Charts refreshed successfully', 'success');
+        }
+
+        // Process new provider
+        function processProvider() {
+            const name = document.getElementById('provider-name').value;
+            const address = document.getElementById('provider-address').value;
+            const phone = document.getElementById('provider-phone').value;
+            const specialty = document.getElementById('provider-specialty').value;
+            const license = document.getElementById('provider-license').value;
+            const city = document.getElementById('provider-city').value;
+            const enableEnrichment = document.getElementById('enable-enrichment').checked;
+            
+            if (!name) {
+                showNotification('Please enter provider name', 'error');
+                return;
+            }
+            
+            // Show processing status
+            setAgentStatus(`Processing ${name}...`, 'processing');
+            
+            // Simulate AI processing delay
+            setTimeout(() => {
+                // Generate mock processed data
+                const mockAccuracy = Math.floor(Math.random() * 30) + 60; // 60-90
+                const mockIssues = [];
+                
+                if (!address || address.length < 10) {
+                    mockIssues.push('Address is incomplete');
+                }
+                if (!phone || phone.length < 10) {
+                    mockIssues.push('Phone number is incomplete');
+                }
+                if (specialty.includes('doctor')) {
+                    mockIssues.push('Specialty is non-standard');
+                }
+                if (!license) {
+                    mockIssues.push('License number is missing');
+                }
+                
+                // Simulate enrichment
+                const enriched = enableEnrichment && (mockIssues.length > 0);
+                
+                // Create new provider object
+                const newProvider = {
+                    id: sampleData.length + 1,
+                    name: name,
+                    address: address || (enriched ? `${city} General Hospital` : ''),
+                    phone: phone || (enriched ? `+91 ${Math.floor(Math.random() * 90000) + 10000} ${Math.floor(Math.random() * 90000) + 10000}` : ''),
+                    specialty: formatSpecialty(specialty),
+                    license: license || 'None',
+                    accuracy_score: mockAccuracy,
+                    issues: mockIssues,
+                    original_specialty: specialty,
+                    enriched: enriched,
+                    source: enriched ? 'AI Enriched' : 'Manual Entry'
+                };
+                
+                // Add to sample data
+                sampleData.unshift(newProvider);
+                
+                // Update UI
+                renderProvidersTable();
+                updateStats();
+                refreshCharts();
+                
+                // Show success notification
+                showNotification(`Successfully processed ${name} with ${mockAccuracy}% accuracy`, 'success');
+                setAgentStatus('Ready for next task', 'ready');
+                
+                // Clear form
+                clearForm();
+                
+            }, 1500);
+        }
+
+        // Format specialty name
+        function formatSpecialty(specialty) {
+            const specialtyMap = {
+                'heart': 'Cardiology',
+                'bone': 'Orthopedics',
+                'skin': 'Dermatology',
+                'eye': 'Ophthalmology',
+                'child': 'Pediatrics',
+                'brain': 'Neurology',
+                'cancer': 'Oncology',
+                'women': 'Gynecology'
+            };
+            
+            const lowerSpecialty = specialty.toLowerCase();
+            for (const [key, value] of Object.entries(specialtyMap)) {
+                if (lowerSpecialty.includes(key)) {
+                    return value;
+                }
+            }
+            
+            // Capitalize first letter of each word
+            return specialty.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        // View provider details
+        function viewDetails(id) {
+            const provider = sampleData.find(p => p.id === id);
+            if (!provider) return;
+            
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">${provider.name}</h4>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+                        <span style="background: ${provider.enriched ? '#d1fae5' : '#e0f2fe'}; 
+                                     color: ${provider.enriched ? '#065f46' : '#1e40af'}; 
+                                     padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">
+                            <i class="fas fa-${provider.enriched ? 'robot' : 'user'}"></i>
+                            ${provider.source}
+                        </span>
+                        <span class="accuracy-badge ${provider.accuracy_score >= 80 ? 'accuracy-high' : provider.accuracy_score >= 60 ? 'accuracy-medium' : 'accuracy-low'}">
+                            ${provider.accuracy_score}% Accuracy
+                        </span>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">Phone</label>
+                        <p style="margin-top: 0.25rem;">${provider.phone}</p>
+                    </div>
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">Specialty</label>
+                        <p style="margin-top: 0.25rem;">${provider.specialty}</p>
+                    </div>
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">License</label>
+                        <p style="margin-top: 0.25rem;">${provider.license}</p>
+                    </div>
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">City</label>
+                        <p style="margin-top: 0.25rem;">${provider.address.split(',').pop().trim() || 'Not specified'}</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">Address</label>
+                    <p style="margin-top: 0.25rem; background: var(--light); padding: 0.75rem; border-radius: 8px;">${provider.address}</p>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <label style="font-weight: 600; color: var(--gray); font-size: 0.9rem;">Issues Identified</label>
+                    <div style="margin-top: 0.5rem;">
+                        ${provider.issues.length > 0 
+                            ? provider.issues.map(issue => 
+                                `<div style="padding: 0.75rem; background: #fef3c7; border-left: 3px solid #f59e0b; margin-bottom: 0.5rem; border-radius: 4px;">
+                                    <i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i>
+                                    ${issue}
+                                </div>`
+                              ).join('')
+                            : '<div style="padding: 0.75rem; background: #d1fae5; border-left: 3px solid #10b981; border-radius: 4px; color: #065f46;">No issues found - Data quality is excellent!</div>'
+                        }
+                    </div>
+                </div>
+                
+                ${provider.original_specialty && provider.original_specialty !== provider.specialty ? `
+                <div style="margin-top: 1rem; padding: 0.75rem; background: #e0f2fe; border-radius: 8px;">
+                    <i class="fas fa-info-circle" style="color: #2563eb;"></i>
+                    <span style="margin-left: 0.5rem; font-size: 0.9rem;">
+                        Standardized from "${provider.original_specialty}" to "${provider.specialty}"
+                    </span>
+                </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('details-modal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('details-modal').classList.remove('active');
+        }
+
+        // Edit provider
+        function editProvider() {
+            alert('Edit functionality would be implemented here');
+            closeModal();
+        }
+
+        // Reprocess provider
+        function reprocessProvider(id) {
+            const provider = sampleData.find(p => p.id === id);
+            if (!provider) return;
+            
+            setAgentStatus(`Re-processing ${provider.name}...`, 'processing');
+            
+            setTimeout(() => {
+                // Simulate reprocessing
+                provider.accuracy_score = Math.min(100, provider.accuracy_score + 5);
+                if (provider.issues.length > 0) {
+                    provider.issues.pop(); // Remove one issue
+                }
+                
+                renderProvidersTable();
+                updateStats();
+                refreshCharts();
+                
+                showNotification(`Re-processed ${provider.name}. New accuracy: ${provider.accuracy_score}%`, 'success');
+                setAgentStatus('Ready for next task', 'ready');
+            }, 1000);
+        }
+
+        // Add new provider (opens modal with form)
+        function addNewProvider() {
+            // Pre-fill form with sample data
+            const sampleNames = ['Dr. Sanjay Verma', 'Dr. Neha Gupta', 'Dr. Vikram Singh'];
+            const sampleSpecialties = ['Neurologist', 'ENT Specialist', 'General Physician'];
+            
+            document.getElementById('provider-name').value = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+            document.getElementById('provider-address').value = '';
+            document.getElementById('provider-phone').value = '';
+            document.getElementById('provider-specialty').value = sampleSpecialties[Math.floor(Math.random() * sampleSpecialties.length)];
+            document.getElementById('provider-license').value = '';
+            document.getElementById('provider-city').value = ['Delhi', 'Mumbai', 'Bangalore'][Math.floor(Math.random() * 3)];
+            
+            showNotification('Form pre-filled with sample data. Edit as needed.', 'info');
+        }
+
+        // Clear form
+        function clearForm() {
+            document.getElementById('provider-name').value = '';
+            document.getElementById('provider-address').value = '';
+            document.getElementById('provider-phone').value = '';
+            document.getElementById('provider-specialty').value = '';
+            document.getElementById('provider-license').value = '';
+            document.getElementById('provider-city').value = '';
+        }
+
+        // Export data
+        function exportData() {
+            const dataStr = JSON.stringify(sampleData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'medtrust-providers-' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data exported successfully as JSON', 'success');
+        }
+
+        // Set agent status
+        function setAgentStatus(text, status) {
+            const statusEl = document.getElementById('agent-status-text');
+            const indicatorEl = document.querySelector('.status-dot');
+            
+            statusEl.textContent = text;
+            
+            if (status === 'processing') {
+                indicatorEl.style.background = '#f59e0b';
+                statusEl.style.color = '#f59e0b';
+            } else if (status === 'ready') {
+                indicatorEl.style.background = '#10b981';
+                statusEl.style.color = '#10b981';
+            } else {
+                indicatorEl.style.background = '#ef4444';
+                statusEl.style.color = '#ef4444';
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                box-shadow: var(--shadow);
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#10b981';
+            } else if (type === 'error') {
+                notification.style.background = '#ef4444';
+            } else {
+                notification.style.background = '#3b82f6';
+            }
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span style="margin-left: 0.5rem;">${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Simulate agent activity
+        function simulateAgentActivity() {
+            let processedCount = 24;
+            let cacheHits = 21;
+            
+            setInterval(() => {
+                // Update metrics randomly
+                processedCount += Math.floor(Math.random() * 3);
+                cacheHits += Math.floor(Math.random() * 2);
+                
+                const hitRate = Math.round((cacheHits / processedCount) * 100);
+                const successRate = 85 + Math.floor(Math.random() * 15);
+                const avgTime = (0.8 + Math.random() * 0.8).toFixed(1);
+                
+                document.getElementById('cache-hit-rate').textContent = `${hitRate}%`;
+                document.getElementById('enrichment-success').textContent = `${successRate}%`;
+                document.getElementById('avg-processing-time').textContent = `${avgTime}s`;
+                document.getElementById('total-processed').textContent = processedCount;
+                
+                // Random status updates
+                const statuses = [
+                    'Monitoring data quality...',
+                    'Ready for next task',
+                    'Updating cache...',
+                    'Verifying external sources...',
+                    'Optimizing algorithms...'
+                ];
+                
+                if (Math.random() > 0.7) {
+                    setAgentStatus(statuses[Math.floor(Math.random() * statuses.length)], 'ready');
+                }
+            }, 5000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
