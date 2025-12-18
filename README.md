@@ -1,4 +1,4 @@
-<img width="300" height="120" alt="Healthcare Directory Cleaner" src="https://www.shutterstock.com/image-vector/love-leaf-healthcare-logo-design-vector-2470689883?trackingId=03ba0128-540f-4176-908c-e7c695220866" />
+
 
 # **Healthcare Directory Cleaner – AI-Powered Provider Data Verification**
 
